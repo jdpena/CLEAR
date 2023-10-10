@@ -1,0 +1,73 @@
+<!-- DISTRIBUTION STATEMENT A. Approved for public release. Distribution is unlimited.
+
+This material is based upon work supported by the Under Secretary of Defense for 
+Research and Engineering under Air Force Contract No. FA8702-15-D-0001. Any opinions,
+findings, conclusions or recommendations expressed in this material are those 
+of the author(s) and do not necessarily reflect the views of the Under 
+Secretary of Defense for Research and Engineering.
+
+© 2023 Massachusetts Institute of Technology.
+
+Subject to FAR52.227-11 Patent Rights - Ownership by the contractor (May 2014)
+
+The software/firmware is provided to you on an As-Is basis
+
+Delivered to the U.S. Government with Unlimited Rights, as defined in DFARS Part 
+252.227-7013 or 7014 (Feb 2014). Notwithstanding any copyright notice, 
+U.S. Government rights in this work are defined by DFARS 252.227-7013 or 
+DFARS 252.227-7014 as detailed above. Use of this work other than as specifically
+authorized by the U.S. Government may violate any copyrights that exist in this work. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The CLEAR Platform</title>
+    <link rel="stylesheet" href="controllerStyle.css">
+</head>
+<body>
+    <div id="navbar">
+        <h2>CLEARly the Interface </h2>
+    </div>
+    <div id="main-content">
+        <div id="video-player">
+            <img id="image" src="" alt="Uploaded Image" width="100%" height="100%">
+            <div id="dot" style="position: absolute; width: 10px; height: 10px; border-radius: 50%; background: red; display: none; z-index: 1;"></div>
+        </div>
+        <div id="userInteraction">
+            <div id="modeContainer" style="align-items: center; justify-content: center;">
+                <div id="modeSelection" style="display: flex;">
+                    <img id="chatIcon" src="./resources/chatIconSelected.png" alt="chat" >
+                    <img id="controlIcon" src="./resources/controllerIcon.png" alt="controller">
+                </div>
+            </div>
+            
+            <div id="interactionWrapper">
+                <div id="chat-area">
+                    <div id="chat-content">
+                        <p><strong>robot:</strong>
+                            Hello!
+                        </p>
+                        <!-- New chat content will be added here -->
+                    </div>
+                </div> 
+            </div>
+
+            <div id="microphone">
+                <img id="toggleMic" src="./resources/microphone.png" alt="microphone" style="cursor:pointer;" >
+                <input type="text" id="chatInput" placeholder="enter chat here..." style="flex-grow: 1; margin-left: 10px;">
+            </div>  
+
+        </div>
+        
+    </div>
+    <div id="footer">
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="function/clickAndKey.js"></script>
+    <script src="function/command.js"></script>
+    <script src="function/chatUpdate.js"></script>
+    <!-- <script src="function/modeSetting.js"></script> -->
+</body>
+</html>

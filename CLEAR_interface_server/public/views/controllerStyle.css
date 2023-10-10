@@ -1,0 +1,137 @@
+/* DISTRIBUTION STATEMENT A. Approved for public release. Distribution is unlimited.
+
+This material is based upon work supported by the Under Secretary of Defense for 
+Research and Engineering under Air Force Contract No. FA8702-15-D-0001. Any opinions,
+findings, conclusions or recommendations expressed in this material are those 
+of the author(s) and do not necessarily reflect the views of the Under 
+Secretary of Defense for Research and Engineering.
+
+© 2023 Massachusetts Institute of Technology.
+
+Subject to FAR52.227-11 Patent Rights - Ownership by the contractor (May 2014)
+
+The software/firmware is provided to you on an As-Is basis
+
+Delivered to the U.S. Government with Unlimited Rights, as defined in DFARS Part 
+252.227-7013 or 7014 (Feb 2014). Notwithstanding any copyright notice, 
+U.S. Government rights in this work are defined by DFARS 252.227-7013 or 
+DFARS 252.227-7014 as detailed above. Use of this work other than as specifically
+authorized by the U.S. Government may violate any copyrights that exist in this work. */
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+}
+#navbar {
+    background: #59457e;
+    /* linear-gradient(to top, #141414, #6441A5); */
+    color: white;
+    padding: 1%;
+}
+
+#main-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+    flex-grow: 1;
+    overflow: hidden;
+}
+#video-player {
+    flex: 0.8;
+    background-color: #333;
+    color: white;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* This exists so that the chat bar is at the bottom */
+#interactionWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 85%;
+}
+
+/* Where chat-content exists */
+#chat-area {
+    flex-grow: 1;
+    margin-bottom: 50px; /* Adjust this based on the height of your controls */
+    overflow-y: auto; /* Make chat content scrollable */
+}
+
+#command {
+    size: 50%;
+}
+
+#microphone {
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    max-height: 5%;
+    bottom: 0; /* This will keep it at the bottom of the chat div */
+}
+
+#footer {
+    background: linear-gradient(to bottom, #333, #222, #111);
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+#toggleMic { 
+    color: red;
+}
+
+#chatIcon {
+    cursor:pointer;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px; /* Horizontal margin to separate images */
+}
+
+#controlIcon {
+    cursor:pointer;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px; /* Horizontal margin to separate images */
+}
+
+#modeSelection {
+    opacity: 0.5;
+    border-radius: 25px;
+    background: #484848;
+    padding: 20px;
+    width: 30%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; /* Center items vertically */
+  }
+
+#userInteraction {
+    flex: 0.2;
+    background-color: #222;
+    color: white;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    /* height: 100%; */
+    /* overflow: auto; Added overflow property */
+}
+
+#modeContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #484848;  /* Colored border on the bottom */
+
+}
+
