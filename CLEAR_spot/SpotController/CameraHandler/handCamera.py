@@ -8,11 +8,9 @@
 
 import argparse
 import sys
-
 import cv2
 import numpy as np
 from google.protobuf import wrappers_pb2
-
 import bosdyn.client
 import bosdyn.client.util
 from bosdyn.api import geometry_pb2, gripper_camera_param_pb2, image_pb2

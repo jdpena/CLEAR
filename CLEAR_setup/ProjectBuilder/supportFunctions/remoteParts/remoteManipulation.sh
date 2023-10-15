@@ -65,8 +65,10 @@ function sync_and_run() {
     # -v: verbose (provides detailed output)
     # -z: compress file data during the transfer
     # --delete: delete extraneous files from destination dirs (this makes the remote repo exactly match the local repo)
+    saveSecretsToFile
     rsync -avz --delete --exclude '.git/' --exclude '*.md' --exclude 'tmp/' --exclude 'clearconda/' "${PARENT_REPO_PATH}/" ${USER}@${SERVER}:${REMOTE_REPO_PATH}
-    
+    # rm "InformationFiles/secrets"
+
     echo "Running script as ${SCRIPT_NAME} ${SERVICE_NAME} ${SERVICE_GIT_URL} yes"
 
     # SSH into the remote server and run the script

@@ -68,7 +68,10 @@ fi
 if 
 (  
     if launchCondaEnv "$BASE_ENV"; then
+        exportSecretsFromFile "$BASE_ENV"
+        saveSecretsToFile
         if getEnvironmentVariable "$SERVICE"; then
+            exportSecretsFromFile "$SERVICE"
             echo "The service, ${SERVICE}, already exists"
             exit 0
         fi
@@ -80,11 +83,9 @@ then
 fi
 
 # In case the script is remote, 
-# setup still must be checked. Also,
-# having it here means it checking if apps 
-# exist is faster. If a project exists, 
-# this will not run.
+# setup still must be checked. 
 checkCondaEnv "$BASE_ENV"
+saveSecretsToFile
 
 # If not remote, the link will be formatted as 
 if [ -z "$I_AM_REMOTE" ]; then 

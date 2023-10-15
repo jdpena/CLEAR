@@ -17,11 +17,6 @@ if [ $# -lt 2 ]; then
   exit 1
 fi
 
-# SETUP_ENV=$(getInitName)
-# if ! launchCondaEnv "$SETUP_ENV"; then 
-#   exit 1
-# fi
-
 # If the service is a remote system, then launch relative 
 # the application where it belongs.
 if checkForEnvValue "remote_systems" "$SERVICE"; then

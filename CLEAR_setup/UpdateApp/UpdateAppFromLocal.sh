@@ -27,11 +27,6 @@ source ./LaunchApp/checking.sh
 source ./ProjectBuilder/supportFunctions/gitFunctioning.sh
 source ./UpdateApp/UpdateSetup.sh
 
-# SETUP_ENV=$(getInitName)
-# if ! launchCondaEnv "$SETUP_ENV"; then 
-#   exit 1
-# fi
-
 SERVICE="$1"
 
 # If the service is a remote system, then launch it on the remote server

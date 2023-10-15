@@ -41,11 +41,13 @@ checkCondaEnv() {
     # Check if the environment already exists
     if conda info --envs | grep -q "^$ENV_NAME "; then
         echo "Environment '$ENV_NAME' already exists."
+        exportSecretsFromFile "$ENV_NAME"
     else
         echo "Creating a new Anaconda environment named '$ENV_NAME'..."
 
         local INFO_DIR="InformationFiles"
         local ENV_SET="${INFO_DIR}/environmentVariables.txt"
+        local SECRET_STASH="${INFO_DIR}/secrets"
 
         # Need to export env variables to create env
         exportEnvVar "$ENV_SET"
@@ -58,66 +60,34 @@ checkCondaEnv() {
             echo "No additional environment variables provided"
         fi
 
+        exportSecretsFromFile "$ENV_NAME"
+
         if [ "$ENV_NAME" == "$BASE_ENV" ]; then 
+            if [ -z "$secrets" ]; then
+                setSecrets
+            fi
+
             installRequirements "$ENV_NAME" "setup"
             # Using this instead of environment variables because
             # this allows greater ease when replicating the setup env
 
             local ADDRESS_FILE="${INFO_DIR}/addresses"
             if [[ ! -f $ADDRESS_FILE ]]; then
+                echo #\n
                 echo "The following questions refer to the web server addresses."
                 echo "The given design has the worker server address as : http://A_SERVER_NAME:9090,"
                 echo "while the interface address is https://A(nother)_SERVER_NAME:7070."
+                echo #\n
 
                 read -p "What machine is hosting the workers? : " worker_host
                 echo "Worker Host: $worker_host" >> $ADDRESS_FILE
+                echo #\n
 
                 # Ask for the machine hosting the interface and save to the file
                 read -p "What is the address of the interface? : " interface_host
                 echo "Interface Host: $interface_host" >> $ADDRESS_FILE
             else
                 echo "File 'addresses' already exists. Skipping prompts."
-            fi
-
-            # Check if gitInfo file exists
-            local GIT_INFO_FILE="${INFO_DIR}/gitinfo"
-            local GIT_IS_PUBLIC="${INFO_DIR}/gitispublic"
-
-                # If GIT_IS_PUBLIC file does not exist
-                if [ ! -f "$GIT_IS_PUBLIC" ]; then
-                    # If GIT_INFO_FILE file does not exist
-                    if [ ! -f "$GIT_INFO_FILE" ]; then
-
-                        read -p "Are you using GitHub repositories that are private? (yes/no): " response
-                        if [[ "$response" =~ ^[Yy][Ee][Ss]|[Yy]$ ]]; then
-
-                            touch "$GIT_INFO_FILE"
-
-                            # Prompt user for GitHub username, if not already stored in environment.
-                            # Instead of storing in a file, should consider appedning it to the env file
-                            if [ -z "$GITHUB_USERNAME" ]; then
-                                read -p "Enter your GitHub username: " GHUB_NAME
-                                echo #\n
-                                echo "GITHUB_USERNAME=$GHUB_NAME" >> "$GIT_INFO_FILE"
-                            fi
-
-                            # Prompt user for Personal Access Token
-                            if [ -z "$GITHUB_PERSONAL_ACCESS_TOKEN" ]; then
-                                read -sp "Enter your GitHub Personal Access Token : " GHUB_TOKEN
-                                echo #\n
-                                echo "GITHUB_PERSONAL_ACCESS_TOKEN=$GHUB_TOKEN" >> "$GIT_INFO_FILE"
-                            fi
-                        else 
-                            touch "$GIT_IS_PUBLIC"
-                        fi
-                fi
-                
-                if [ -f "$GIT_INFO_FILE" ]; then
-                    GITHUB_USERNAME=$(grep "GITHUB_USERNAME=" "$GIT_INFO_FILE" | awk -F'=' '{print $2}')
-                    addEnvVariables "$BASE_ENV" GITHUB_USERNAME "$GITHUB_USERNAME"
-                    GITHUB_PERSONAL_ACCESS_TOKEN=$(grep "GITHUB_PERSONAL_ACCESS_TOKEN=" "$GIT_INFO_FILE" | awk -F'=' '{print $2}')
-                    addEnvVariables "$BASE_ENV" GITHUB_PERSONAL_ACCESS_TOKEN "$GITHUB_PERSONAL_ACCESS_TOKEN"
-                fi
             fi
 
         else
@@ -132,6 +102,123 @@ checkCondaEnv() {
             local interface_host_value=$(grep "Interface Host:" addresses | cut -d ' ' -f3-)
             addEnvVariables "$ENV_NAME" "INTERFACE_ADDRESS" "$interface_host_value"
         )
+    fi
+}
+
+setSecrets() {
+    setGitInformation
+    local BASE_ENV="$(getInitName)"
+    
+    echo #\n
+    echo "Input environment variables, such as API keys, so that they can be referenced throughout the project. This information"
+    echo "will be saved in the environment variables of the conda instances you create. This step can be forgone, however,"
+    echo "you will then need to enter these values with less convenient approach"
+    echo #\n
+    echo "For example, you could enter OPENAI_API_KEY=<your key>"
+    echo #\n
+
+    local SECRET_STASH_NAME="secrets"
+
+    while true; do
+        # Prompt the user for input
+
+        read -p "Enter environment variables in the format 'ENV_VAR=VAL' or 'q' to quit: " input
+
+        # Check if the user entered the special character to quit
+        if [[ "$input" =~ ^[Qu][Uu][Ii][Tt]|[Qq]|[Nn][Oo]|[Nn]$ ]]; then
+            break
+        fi
+
+        # Check if the user entered in the correct format
+        # Check for presence of "=" in the input
+        if [[ "$input" == *"="* ]]; then
+            # Use IFS to split the input into name and value
+            IFS="=" read -ra parts <<< "$input"
+            local varName="${parts[0]}"
+            local varValue="${parts[1]}"
+
+            echo "Captured:"
+            echo "Variable Name: $varName"
+            echo "Value: $varValue"
+            addEnvVariables "$BASE_ENV" "$varName" "$varValue"
+            addEnvVariables "$BASE_ENV" "$SECRET_STASH_NAME" "$varName"
+        else
+            echo "Invalid format. Please enter in the format 'ENV_VAR=VAL' or 'q' to quit."
+        fi
+    done
+
+}
+
+exportSecretsFromFile() {
+    local ENV_NAME=$1
+    local TEMP_STORAGE="InformationFiles/secrets"
+  
+    # Check if the file exists
+    if [[ ! -f "$TEMP_STORAGE" ]]; then
+        echo "File $TEMP_STORAGE does not exist."
+        return 1
+    fi
+
+    # Iterate through each line in the file
+    while IFS="=" read -r key value; do
+        # Export the variable and its value
+        addEnvVariables "$ENV_NAME" "$key" "$value"
+        addEnvVariables "$ENV_NAME" "secrets" "$key"
+    done < "$TEMP_STORAGE"
+    
+    rm "$TEMP_STORAGE"
+    return 0
+}
+
+saveSecretsToFile() {
+    local ENV_VAR_NAME="secrets"
+
+    local TEMP_STORAGE="InformationFiles/secrets"
+
+    if [[ -z "$ENV_VAR_NAME" ]]; then 
+        return 1
+    fi 
+
+    >"$TEMP_STORAGE" # Create or clear the file before writing to it
+
+    # Split the content of the ENV_VAR_NAME variable by commas and iterate
+    IFS="," read -ra secretNames <<< "${!ENV_VAR_NAME}"
+    for secretName in "${secretNames[@]}"; do
+        local value="${!secretName}"  # Indirect expansion to get the value of the secret
+        echo "$secretName=$value" >> "$TEMP_STORAGE"
+    done
+
+    return 0
+}
+
+setGitInformation() {
+    local GIT_INFO_FILE="${INFO_DIR}/gitinfo"
+    local BASE_ENV="$(getInitName)"
+
+    # Is true if account info is stored in a file. Not recommended for security reasons
+    if [ -f "$GIT_INFO_FILE" ]; then
+        GITHUB_USERNAME=$(grep "GITHUB_USERNAME=" "$GIT_INFO_FILE" | awk -F'=' '{print $2}')
+        addEnvVariables "$BASE_ENV" GITHUB_USERNAME "$GITHUB_USERNAME"
+        GITHUB_PERSONAL_ACCESS_TOKEN=$(grep "GITHUB_PERSONAL_ACCESS_TOKEN=" "$GIT_INFO_FILE" | awk -F'=' '{print $2}')
+        addEnvVariables "$BASE_ENV" GITHUB_PERSONAL_ACCESS_TOKEN "$GITHUB_PERSONAL_ACCESS_TOKEN"
+    elif [ -z "$GITHUB_PERSONAL_ACCESS_TOKEN" ]; then
+
+        read -p "Are you using GitHub repositories that are private? (yes/no): " response
+        if [[ "$response" =~ ^[Yy][Ee][Ss]|[Yy]$ ]]; then
+            # Prompt user for GitHub username, if not already stored in environment.
+            if [ -z "$GITHUB_USERNAME" ]; then
+                read -p "Enter your GitHub username: " GHUB_NAME
+                echo #\n
+                addEnvVariables "$BASE_ENV" GITHUB_USERNAME "$GHUB_NAME"
+            fi
+
+        # Prompt user for Personal Access Token
+            read -sp "Enter your GitHub Personal Access Token : " GHUB_TOKEN
+            echo #\n
+            addEnvVariables "$BASE_ENV" GITHUB_PERSONAL_ACCESS_TOKEN "$GHUB_TOKEN"
+        else
+            echo "Not using Git credentials"
+        fi
     fi
 }
 
@@ -173,11 +260,19 @@ addEnvVariables() {
         echo "Usage: addEnvVariables <env_name> <var_name> <var_value> [change]"
         return 1
     fi
+
     ENV_NAME=$1
     VAR_NAME=$(echo $2 | tr '-' '_')
     VAR_VALUE=$3
-    CHANGE_MODE=$4  # Optional argument for "change"
+
+    # Optional argument for "change"ing the env var, instead of treating
+    # it as a comma delimited list.
+    CHANGE_MODE=$4 
+
+    export "$VAR_NAME=$VAR_VALUE" 
+
     ACTIVATE_DIR=$(conda info --base)/envs/$ENV_NAME/etc/conda/activate.d
+
     mkdir -p $ACTIVATE_DIR
     ENV_VARS_SCRIPT=$ACTIVATE_DIR/env_vars.sh
 
@@ -190,7 +285,12 @@ addEnvVariables() {
 
     if [ "$CHANGE_MODE" == "change" ]; then
         echo "export $VAR_NAME=\"$VAR_VALUE\"" >> $ENV_VARS_SCRIPT
+        echo "Environment variable has been added to the Conda environment '$ENV_NAME'."
     else
+        # Check if the value was already present in the file (the environment variable for the conda environment)
+        if ! grep -q "$VAR_NAME.*$VAR_VALUE" $ENV_VARS_SCRIPT; then
+            echo "Environment variable has been added to the Conda environment '$ENV_NAME'."
+        fi
         echo "if [ -z \"\${$VAR_NAME}\" ]; then" >> $ENV_VARS_SCRIPT
         echo "    export $VAR_NAME=\"$VAR_VALUE\"" >> $ENV_VARS_SCRIPT
         echo "else" >> $ENV_VARS_SCRIPT
@@ -200,7 +300,6 @@ addEnvVariables() {
         echo "fi" >> $ENV_VARS_SCRIPT
     fi
 
-    echo "Environment variable has been added to the Conda environment '$ENV_NAME'."
 }
 
 installRequirements() {

@@ -1,6 +1,0 @@
-refresh connections :
-nmcli dev wifi list
-
-to connect :
-sudo nmcli dev wifi connect spot-BD-21910001 password 8wiq3jhe0ae5
-

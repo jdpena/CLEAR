@@ -21,14 +21,17 @@
 """
 launches edge device for controlling spot
 """
-#Note to self: if running on mac do server : http://172.27.237.206:7070
 from Interface.Interface import Interface
-import argparse
+import argparse, os
 
 parser = argparse.ArgumentParser()
 
+
+defaultWorkerAddress = os.environ.get('WORKER_ADDRESS',
+                                  "http://localhost:9090")
+
 parser.add_argument('--serverAddress', type=str,
-  default="https://autodroneinterface.azurewebsites.net")
+  default=defaultWorkerAddress)
 
 # Wifi ip
 parser.add_argument('--spotAddress', type=str,

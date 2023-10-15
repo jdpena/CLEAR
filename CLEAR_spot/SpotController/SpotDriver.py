@@ -31,11 +31,8 @@ import time
 from collections import OrderedDict
 from SpotController.CameraHandler.CameraHandler import AsyncImageCapture as Cam
 from SpotController.ArmHandler.ArmHandler import ArmController
-
-
 import bosdyn.api.basic_command_pb2 as basic_command_pb2
 import bosdyn.api.power_pb2 as PowerServiceProto
-# import bosdyn.api.robot_command_pb2 as robot_command_pb2
 import bosdyn.api.robot_state_pb2 as robot_state_proto
 import bosdyn.api.spot.robot_command_pb2 as spot_command_pb2
 import bosdyn.client.util
@@ -729,7 +726,7 @@ def _setup_logging(verbose):
     LOGGER.addHandler(stream_handler)
     return stream_handler
 
-def main(BigDog, hostname="192.168.80.3"):
+def main(BigDog, hostname):
     """Command-line interface."""
     # Replace argparse with a simple class
     try :

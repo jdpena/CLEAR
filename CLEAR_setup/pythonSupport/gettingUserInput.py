@@ -47,8 +47,6 @@ def setRobot() :
     exit(0)
 
 def queryUser(launch, choosingAction, shouldPrint = False):
-    # os.system('clear')
-
     if shouldPrint : printInstructions(choosingAction)
 
     print("Choose an action to perform. For instructions enter '?'")
@@ -58,17 +56,24 @@ def queryUser(launch, choosingAction, shouldPrint = False):
     i = 1
     for message in launch.getReadiness():
         print(f"{i} : {message}")
-        service_name = message.split(" ")[0]  # Extract the service name from the message
-        num_to_service[i] = service_name  # Map the index to the service name
+        # Extract the service name from the message
+        service_name = message.split(" ")[0] 
+
+        # Map the index to the service name 
+        num_to_service[i] = service_name 
+
         service_names.add(service_name)
+
         i += 1
 
     userInput = input().strip().split(" ")
 
     if userInput[0] == '?' :
         return queryUser(launch, choosingAction, shouldPrint=True)
+    
     elif userInput[0] == "-1" :
         return False    
+    
     elif len(userInput) != 2:
         print("Invalid input format.")
         return True
