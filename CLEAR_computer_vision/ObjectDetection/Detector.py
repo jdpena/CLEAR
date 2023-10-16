@@ -87,8 +87,6 @@ class Detector:
                     crop = image[ymin:int(ymax),xmin:xmax]
 
                     im = Image.fromarray(crop)
-                    im.save("XXX.jpeg")
-                    #In OutputObj, the mid point of the object is related to the given target mid point
                 
                     self.humanModel.specify(crop, xmin, ymin)
 
