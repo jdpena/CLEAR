@@ -1,0 +1,6 @@
+clean.py
+forgottenTerms.txt
+quickRemove.py
+*.meta
+.github
+*.vscode
