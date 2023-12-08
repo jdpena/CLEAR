@@ -1,4 +1,0 @@
-echo "Hoping node is already installed"
-npm init -y
-npm install express body-parser
-npm install socket.io
