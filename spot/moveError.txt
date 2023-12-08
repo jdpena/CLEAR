@@ -1,1 +1,0 @@
-The exception is 'MovementController' object has no attribute 'resetRotation'
