@@ -6,8 +6,6 @@ Run the CLEAR spot service on a Windows or Unix system in a Python 3.8 interpret
 ``python main.py --serverAddress <web address>``
 
 -----
-export BOSDYN_CLIENT_USERNAME=user
-export BOSDYN_CLIENT_PASSWORD=6utztajziin4
 
 XXX A. XXX. Distribution is unlimited.
  
