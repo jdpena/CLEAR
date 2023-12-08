@@ -4,3 +4,4 @@ quickRemove.py
 *.meta
 .github
 *.vscode
+SPDX.spdx
