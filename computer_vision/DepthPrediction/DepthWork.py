@@ -54,7 +54,7 @@ class DepthWork() :
 
     # just for debugging
     def testing(self) :
-        media = Image.open("testingImage/XXXandSpot.jpg")
+        media = Image.open("testingImage/catTest.jpg")
 
         originalDim = (media.height, media.width)
         

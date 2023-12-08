@@ -61,7 +61,7 @@ class DetectiveWork() :
         self.ready = True
     
     def testing(self) :
-        media = cv2.imread("ObjectDetection/images/XXXandSpot.jpg")
+        media = cv2.imread("ObjectDetection/images/catTest.jpg")
         media = cv2.cvtColor(media, cv2.COLOR_RGB2BGR)
 
 
