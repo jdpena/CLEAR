@@ -4,18 +4,18 @@ To use CLEAR setup, run ``./main.sh``.
  
 This software has been tested on Ubuntu 22.04.3 LTS and macOS 13.5.2.
  
-For any comments, questions, or concerns, please submit an an issue or email jacob.macdonald@ll.mit.edu.
+For any comments, questions, or concerns, please submit an an issue or XXX jacob.XXXXXX.mit.XXX.
 
 -----
 
-DISTRIBUTION STATEMENT A. Approved for public release. Distribution is unlimited.
+XXX A. XXX. Distribution is unlimited.
  
-This material is based upon work supported by the Under Secretary of Defense for Research and Engineering under Air Force Contract No. FA8702-15-D-0001. Any opinions, findings, conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the Under Secretary of Defense for Research and Engineering.
+XXX supported XXXnder XXX of XXX for XXX and XXX under XXX Contract No. XXX-15-D-XXX. Any opinions, findings, conclusions or recommendations XXX(s) XXX the XXX XXX of XXX for XXX and XXX.
 
-© 2023 Massachusetts Institute of Technology.
+© 2023 XXX.
 
-Subject to FAR52.227-11 Patent Rights - Ownership by the contractor (May 2014)
+XXX.XXX-11 Patent Rights - XXX (May 2014)
 
-The software/firmware is provided to you on an As-Is basis
+The software/XXX-Is basis
 
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: XXX

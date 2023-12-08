@@ -1,22 +1,22 @@
-# DISTRIBUTION STATEMENT A. Approved for public release. Distribution is unlimited.
+# XXX A. XXX. Distribution is unlimited.
 
-# This material is based upon work supported by the Under Secretary of Defense for 
-# Research and Engineering under Air Force Contract No. FA8702-15-D-0001. Any opinions,
-# findings, conclusions or recommendations expressed in this material are those 
-# of the author(s) and do not necessarily reflect the views of the Under 
-# Secretary of Defense for Research and Engineering.
+# XXX supported XXXnder XXX of XXX for 
+# XXX and XXX under XXX Contract No. XXX-15-D-XXX. Any opinions,
+# findings, XXX 
+# of the author(s) XXX the XXX 
+# XXX of XXX for XXX and XXX.
 
-# © 2023 Massachusetts Institute of Technology.
+# © 2023 XXX.
 
-# Subject to FAR52.227-11 Patent Rights - Ownership by the contractor (May 2014)
+# XXX.XXX-11 Patent Rights - XXX (May 2014)
 
-# The software/firmware is provided to you on an As-Is basis
+# The software/XXX-Is basis
 
-# Delivered to the U.S. Government with Unlimited Rights, as defined in DFARS Part 
-# 252.227-7013 or 7014 (Feb 2014). Notwithstanding any copyright notice, 
-# U.S. Government rights in this work are defined by DFARS 252.227-7013 or 
-# DFARS 252.227-7014 as detailed above. Use of this work other than as specifically
-# authorized by the U.S. Government may violate any copyrights that exist in this work.
+# XXX.S. XXX with Unlimited Rights, as defined in XXX Part 
+# XXX.XXX-XXX or 7014 (Feb 2014). Notwithstanding any copyright notice, 
+# U.S. XXX rights in this work are defined by XXX XXX.XXX-XXX or 
+# XXX XXX.XXX-7014 as detailed above. Use of this work other than as specifically
+# XXX XXX.S. XXX may violate any copyrights that exist in this work.
 
 """
 This script functions as the main driver of spot. 
@@ -161,7 +161,7 @@ class WasdInterface(object):
         self.standing = False
 
         self.commandLock = threading.Lock()  # create a lock object
-        self.autoDroneLock = threading.Lock()  # create a lock object
+        self.XXXLock = threading.Lock()  # create a lock object
 
         self.body_height = 0.0
         self.stand_yaw = 0.0
@@ -451,14 +451,14 @@ class WasdInterface(object):
                 dir_hint=basic_command_pb2.BatteryChangePoseCommand.Request.HINT_RIGHT))
 
     def _dock(self) :
-        self.autoDroneLock.acquire(blocking=True)
+        self.XXXLock.acquire(blocking=True)
 
         self.standing = False
         robot_command.blocking_stand(self._robot_command_client)
         blocking_dock_robot(self._robot, 520)
         print('Docking Success')
 
-        self.autoDroneLock.release()
+        self.XXXLock.release()
 
     def _sit(self):
         self.readyForCommand = False
@@ -539,7 +539,7 @@ class WasdInterface(object):
     #the interface thread which calls autoMove. Thus a pause is neccesary for calling
     #autoMove to prevent spot from being overwhelmed. 
     def _autoMove(self, left_x, left_y, right_x, height, resetRotation = False) :
-        if not self.autoDroneLock.acquire(blocking=False): return
+        if not self.XXXLock.acquire(blocking=False): return
 
         try :
             if hasattr(self, "standing") :
@@ -572,7 +572,7 @@ class WasdInterface(object):
             LOGGER.error('AutoMove Error : ', e)
 
         finally :
-            self.autoDroneLock.release()
+            self.XXXLock.release()
 
 
     def _move(self, left_x = 0, left_y = 0, right_x = 0, heightChange = 0):

@@ -178,7 +178,7 @@ class EstopGui(QtWidgets.QMainWindow):
 
 
 def _level_string(level):
-    """Convert a stop level into a string for the UI"""
+    """Convert a stop level into a string for XXXI"""
     if level == estop_protos.ESTOP_LEVEL_NONE:
         return 'Allowed'
     elif level in (estop_protos.ESTOP_LEVEL_CUT, estop_protos.ESTOP_LEVEL_SETTLE_THEN_CUT):

@@ -98,7 +98,7 @@ class Launcher () :
 
         if service in ("object_detection", "depth_perception"):
             repo = "computer_vision"
-            print ("woag")
+            print ("XXX")
             subprocess.run(['bash', './LaunchApp/stopApp.sh', 
                 service, repo])
         else : 

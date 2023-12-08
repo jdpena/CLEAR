@@ -1,7 +1,7 @@
 # CLEAR_computer_vision
 CLEAR computer vision generates system-understandable perceptual awareness utilized by the coordinator in governing robot response. This software defines two services the CLEAR project uses: CLEAR object detection, and CLEAR depth perception.
  
-These services connect to the worker server and listen for image uploads. When a new image is uploaded to the worker server, both of the services retrieve the newly uploaded image from their designated depo. Uploaded images are copied into depth perception and object detection depo. Further, there may exist multiple simultaneously running services of both varieties; for example, a CLEAR project may run two object detection services and three depth perception services. In the case of duplicate services, a First Come First Serve schedule will be used.
+These services connect to the worker server and listen for image uploads. When a new image is uploaded to the worker server, both of the services retrieve the newly uploaded image from their designated depo. Uploaded images are copied into depth perception and object detection depo. Further, there may exist multiple simultaneously running services of both varieties; for example, a CLEAR project may run two object detection services and three depth perception services. In the case of duplicate services, a First Come First Serve schXXXle will be used.
  
 CLEAR object detection transmutes raw visual data into contextual information defined in natural language. This service helps write the prompts provided to the LLM used for controlling the CLEAR system. 
  
@@ -20,14 +20,14 @@ However, the systems just expressed above can be easily swapped for other simila
 
 -----
 
-DISTRIBUTION STATEMENT A. Approved for public release. Distribution is unlimited.
+XXX A. XXX. Distribution is unlimited.
  
-This material is based upon work supported by the Under Secretary of Defense for Research and Engineering under Air Force Contract No. FA8702-15-D-0001. Any opinions, findings, conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the Under Secretary of Defense for Research and Engineering.
+XXX supported XXXnder XXX of XXX for XXX and XXX under XXX Contract No. XXX-15-D-XXX. Any opinions, findings, conclusions or recommendations XXX(s) XXX the XXX XXX of XXX for XXX and XXX.
 
-© 2023 Massachusetts Institute of Technology.
+© 2023 XXX.
 
-Subject to FAR52.227-11 Patent Rights - Ownership by the contractor (May 2014)
+XXX.XXX-11 Patent Rights - XXX (May 2014)
 
-The software/firmware is provided to you on an As-Is basis
+The software/XXX-Is basis
 
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: XXX

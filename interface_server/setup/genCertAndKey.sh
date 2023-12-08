@@ -25,6 +25,6 @@ openssl genpkey -algorithm RSA -out $KEY_FILE
 
 # Generate a self-signed certificate with the provided default values
 openssl req -new -x509 -key $KEY_FILE -out $CERT_FILE -days 365 \
--subj "/C=$C/ST=$ST/L=$L/O=$O/OU=$OU/CN=$CN/emailAddress=$EMAIL"
+-subj "/C=$C/ST=$ST/L=$L/O=$O/OU=$OU/CN=$CN/XXXAddress=$EMAIL"
 
 echo "Successfully created $KEY_FILE and $CERT_FILE."
