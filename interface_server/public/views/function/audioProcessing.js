@@ -122,7 +122,7 @@ function sendDataToFlaskServer(blob) {
         processInterupted = false;
     }
 
-    fetch("https://172.25.215.120:2020/chat", {
+    fetch("https://localhost:2020/chat", {
         method: 'POST',
         body: data
     })
